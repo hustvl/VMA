@@ -1,0 +1,1 @@
+from .vmacoder import VMANMSFreeCoder

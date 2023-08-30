@@ -1,0 +1,1 @@
+from .vmahungarianassigner import VMAHungarianAssigner
