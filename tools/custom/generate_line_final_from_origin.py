@@ -35,8 +35,8 @@ def generate_line_final_from_original(source_file_path, data_root, out_dir, visu
     train_data_length = round(0.8*length)
     train_data_name_list = big_image_name_list[:train_data_length]
     valid_data_name_list = big_image_name_list[train_data_length:]
-    with open(os.path.join(out_dir, 'train_valid_6k_image_name.json'), 'w') as f:
-        json.dump(train_valid_6k_image_name, f)
+    # with open(os.path.join(out_dir, 'train_valid_6k_image_name.json'), 'w') as f:
+    #     json.dump(train_valid_6k_image_name, f)
     for big_image_name in big_image_name_list:
         if big_image_name in train_data_name_list:
             final_dict['train'].extend(result_dict[big_image_name])
