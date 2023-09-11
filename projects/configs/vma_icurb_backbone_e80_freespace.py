@@ -220,7 +220,7 @@ total_epochs = 80
 runner = dict(type='EpochBasedRunner', max_epochs=total_epochs)
 checkpoint_config = dict(interval=5)
 
-evaluation = dict(interval=80, metric='chamfer')
+evaluation = dict(interval=5, metric='chamfer')
 log_config = dict(
     interval=50,
     hooks=[
