@@ -1,1 +1,1 @@
-python generate_line_final_from_origin.py data/sd_data/line/origin_data data/sd_data/line/origin_data/line_data_6k.json data/sd_data/line/cropped_data --visualize
+python generate_line_final_from_origin.py data/sd_data/line/origin_data/line_data_6k.json data/sd_data/line/origin_data data/sd_data/line/cropped_data --visualize

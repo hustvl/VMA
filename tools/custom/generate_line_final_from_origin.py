@@ -293,7 +293,7 @@ def extract_line_1k_small_image_instances(trajectory_data_list, instances_list, 
                 y = 500
             elif y > 5500:
                 y = 5500
-            bbox_minx, bbox_miny, bbox_maxx, bbox_maxy = round(x) - 500, round(y) - 500, round(x) + 499, round(y) + 499
+            bbox_minx, bbox_miny, bbox_maxx, bbox_maxy = int(round(x) - 500), int(round(y) - 500), int(round(x) + 499), int(round(y) + 499)
             cropped = big_image[bbox_miny:bbox_maxy+1, bbox_minx:bbox_maxx+1]
             assert cropped.shape[0] == cropped.shape[1], print(cropped.shape)
             small_image_name = '_'.join([image_name, str(i)]) + '.jpg'
