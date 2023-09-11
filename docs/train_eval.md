@@ -15,5 +15,5 @@ You can download our trained iCurb checkpoint in [Baidu](https://pan.baidu.com/s
 
 We support metric **icurb** for NYC dataset and **chamfer** for SD dataset.
 ```
-./tools/dist_test.sh ./projects/configs/vma/vma_icurb.py ./path/to/ckpts.pth 8 icurb
+./tools/dist_test.sh ./projects/configs/vma/vma_icurb.py ./path/to/ckpts.pth 8
 ```
