@@ -412,6 +412,7 @@ class iCurb_Dataset(Dataset):
                 #  pipeline=None,
                 #  img_metas=None
                  ):
+        metric = metric if isinstance(metric, list) else [metric]
         if metric == ['icurb']:
             result_files, tmp_dir = self.format_results(results, jsonfile_prefix)
             results_dict = evaluate_all(result_files['pts_bbox'], self.mask_dir)

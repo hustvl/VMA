@@ -505,7 +505,7 @@ class SD_Driving_Freespace_Dataset(Dataset):
                 #  img_metas=None
                  ):
         result_files, tmp_dir = self.format_results(results, jsonfile_prefix)
-
+        metric = metric if isinstance(metric, list) else [metric]
         if metric == ['chamfer']:
 
             if isinstance(result_files, dict):

@@ -162,27 +162,14 @@ def custom_train_detector(model,
             cfg.data.val.pipeline = replace_ImageToTensor(
                 cfg.data.val.pipeline)
         val_dataset = custom_build_dataset(cfg.data.val, dict(test_mode=True))
-        if 'iCurb'in cfg.data.val.type or 'SD' in cfg.data.val.type:
-            val_dataloader = build_dataloader_icurb(
-                    val_dataset,
-                    cfg.data.samples_per_gpu,
-                    cfg.data.workers_per_gpu,
-                    # cfg.gpus will be ignored if distributed
-                    len(cfg.gpu_ids),
-                    dist=distributed,
-                    seed=cfg.seed,
-                    shuffler_sampler=cfg.data.shuffler_sampler,  # dict(type='DistributedGroupSampler'),
-                    nonshuffler_sampler=cfg.data.nonshuffler_sampler,  # dict(type='DistributedSampler'),
-                )
-        else:
-            val_dataloader = build_dataloader(
-                    val_dataset,
-                    samples_per_gpu=val_samples_per_gpu,
-                    workers_per_gpu=cfg.data.workers_per_gpu,
-                    dist=distributed,
-                    shuffle=False,
-                    shuffler_sampler=cfg.data.shuffler_sampler,  # dict(type='DistributedGroupSampler'),
-                    nonshuffler_sampler=cfg.data.nonshuffler_sampler,  # dict(type='DistributedSampler'),
+        val_dataloader = build_dataloader(
+                val_dataset,
+                samples_per_gpu=val_samples_per_gpu,
+                workers_per_gpu=cfg.data.workers_per_gpu,
+                dist=distributed,
+                shuffle=False,
+                shuffler_sampler=cfg.data.shuffler_sampler,  # dict(type='DistributedGroupSampler'),
+                nonshuffler_sampler=cfg.data.nonshuffler_sampler,  # dict(type='DistributedSampler'),
         )
         eval_cfg = cfg.get('evaluation', {})
         eval_cfg['by_epoch'] = cfg.runner['type'] != 'IterBasedRunner'
