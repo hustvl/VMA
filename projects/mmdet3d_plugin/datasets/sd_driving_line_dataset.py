@@ -147,6 +147,9 @@ class InstanceLines(object):
             multi_shifts_pts_tensor = to_tensor(multi_shifts_pts)
             multi_shifts_pts_tensor = multi_shifts_pts_tensor.to(
                             dtype=torch.float32)
+
+            multi_shifts_pts_tensor[:,:,0] /= self.max_x # normalize
+            multi_shifts_pts_tensor[:,:,1] /= self.max_y
             
             multi_shifts_pts_tensor[:,:,0] = torch.clamp(multi_shifts_pts_tensor[:,:,0], min=0,max=0.999)
             multi_shifts_pts_tensor[:,:,1] = torch.clamp(multi_shifts_pts_tensor[:,:,1], min=0,max=0.999)
