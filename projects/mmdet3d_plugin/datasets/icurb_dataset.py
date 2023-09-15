@@ -68,10 +68,14 @@ class InstanceLines(object):
         instance_se_points_tensor = to_tensor(instance_se_points_array)
         instance_se_points_tensor = instance_se_points_tensor.to(
                                 dtype=torch.float32)
-        instance_se_points_tensor[:,0] = torch.clamp(instance_se_points_tensor[:,0], min=-self.max_x,max=self.max_x)
-        instance_se_points_tensor[:,1] = torch.clamp(instance_se_points_tensor[:,1], min=-self.max_y,max=self.max_y)
-        instance_se_points_tensor[:,2] = torch.clamp(instance_se_points_tensor[:,2], min=-self.max_x,max=self.max_x)
-        instance_se_points_tensor[:,3] = torch.clamp(instance_se_points_tensor[:,3], min=-self.max_y,max=self.max_y)
+        instance_se_points_tensor[:,0] /= self.max_x
+        instance_se_points_tensor[:,1] /= self.max_y
+        instance_se_points_tensor[:,2] /= self.max_x
+        instance_se_points_tensor[:,3] /= self.max_y
+        instance_se_points_tensor[:,0] = torch.clamp(instance_se_points_tensor[:,0], min=0,max=0.999)
+        instance_se_points_tensor[:,1] = torch.clamp(instance_se_points_tensor[:,1], min=0,max=0.999)
+        instance_se_points_tensor[:,2] = torch.clamp(instance_se_points_tensor[:,2], min=0,max=0.999)
+        instance_se_points_tensor[:,3] = torch.clamp(instance_se_points_tensor[:,3], min=0,max=0.999)
         return instance_se_points_tensor
 
     @property
@@ -88,10 +92,14 @@ class InstanceLines(object):
         instance_bbox_tensor = to_tensor(instance_bbox_array)
         instance_bbox_tensor = instance_bbox_tensor.to(
                             dtype=torch.float32)
-        instance_bbox_tensor[:,0] = torch.clamp(instance_bbox_tensor[:,0], min=-self.max_x,max=self.max_x)
-        instance_bbox_tensor[:,1] = torch.clamp(instance_bbox_tensor[:,1], min=-self.max_y,max=self.max_y)
-        instance_bbox_tensor[:,2] = torch.clamp(instance_bbox_tensor[:,2], min=-self.max_x,max=self.max_x)
-        instance_bbox_tensor[:,3] = torch.clamp(instance_bbox_tensor[:,3], min=-self.max_y,max=self.max_y)
+        instance_bbox_tensor[:,0] /= self.max_x
+        instance_bbox_tensor[:,1] /= self.max_y
+        instance_bbox_tensor[:,2] /= self.max_x
+        instance_bbox_tensor[:,3] /= self.max_y
+        instance_bbox_tensor[:,0] = torch.clamp(instance_bbox_tensor[:,0], min=0,max=0.999)
+        instance_bbox_tensor[:,1] = torch.clamp(instance_bbox_tensor[:,1], min=0,max=0.999)
+        instance_bbox_tensor[:,2] = torch.clamp(instance_bbox_tensor[:,2], min=0,max=0.999)
+        instance_bbox_tensor[:,3] = torch.clamp(instance_bbox_tensor[:,3], min=0,max=0.999)
         return instance_bbox_tensor
     
     @property
@@ -109,8 +117,10 @@ class InstanceLines(object):
         instance_points_tensor = to_tensor(instance_points_array)
         instance_points_tensor = instance_points_tensor.to(
                             dtype=torch.float32)
-        instance_points_tensor[:,:,0] = torch.clamp(instance_points_tensor[:,:,0], min=-self.max_x,max=self.max_x)
-        instance_points_tensor[:,:,1] = torch.clamp(instance_points_tensor[:,:,1], min=-self.max_y,max=self.max_y)
+        instance_points_tensor[:,:,0] /= self.max_x
+        instance_points_tensor[:,:,1] /= self.max_y
+        instance_points_tensor[:,:,0] = torch.clamp(instance_points_tensor[:,:,0], min=0,max=0.999)
+        instance_points_tensor[:,:,1] = torch.clamp(instance_points_tensor[:,:,1], min=0,max=0.999)
         return instance_points_tensor
 
     @property
@@ -141,19 +151,18 @@ class InstanceLines(object):
                     shift_pts = np.concatenate((shift_pts,pts_to_concat),axis=0)
                     shift_instance = LineString(shift_pts)
                     shift_sampled_points = np.array([list(shift_instance.interpolate(distance).coords) for distance in distances]).reshape(-1, coords_num)
-                    shift_sampled_points[:, 0] /= self.max_x # normalize
-                    shift_sampled_points[:, 1] /= self.max_y
                     shift_pts_list.append(shift_sampled_points)
             else:
                 sampled_points = np.array([list(instance.interpolate(distance).coords) for distance in distances]).reshape(-1, coords_num)
-                sampled_points[:, 0] /= self.max_x
-                sampled_points[:, 1] /= self.max_y
                 flip_sampled_points = np.flip(sampled_points, axis=0)
                 shift_pts_list.append(sampled_points)
                 shift_pts_list.append(flip_sampled_points)
             
             multi_shifts_pts = np.stack(shift_pts_list,axis=0)
             shifts_num,_,_ = multi_shifts_pts.shape
+
+            multi_shifts_pts_tensor[:,:,0] /= self.max_x # normalize
+            multi_shifts_pts_tensor[:,:,1] /= self.max_y
 
             if shifts_num > final_shift_num:
                 index = np.random.choice(multi_shifts_pts.shape[0], final_shift_num, replace=False)
@@ -162,6 +171,9 @@ class InstanceLines(object):
             multi_shifts_pts_tensor = to_tensor(multi_shifts_pts)
             multi_shifts_pts_tensor = multi_shifts_pts_tensor.to(
                             dtype=torch.float32)
+
+            multi_shifts_pts_tensor[:,:,0] /= self.max_x # normalize
+            multi_shifts_pts_tensor[:,:,1] /= self.max_y
             
             multi_shifts_pts_tensor[:,:,0] = torch.clamp(multi_shifts_pts_tensor[:,:,0], min=0,max=0.999)
             multi_shifts_pts_tensor[:,:,1] = torch.clamp(multi_shifts_pts_tensor[:,:,1], min=0,max=0.999)

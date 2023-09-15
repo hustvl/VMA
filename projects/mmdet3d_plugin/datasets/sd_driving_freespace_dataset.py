@@ -72,10 +72,14 @@ class InstanceLines(object):
         instance_se_points_tensor = to_tensor(instance_se_points_array)
         instance_se_points_tensor = instance_se_points_tensor.to(
                                 dtype=torch.float32)
-        instance_se_points_tensor[:,0] = torch.clamp(instance_se_points_tensor[:,0], min=-self.max_x,max=self.max_x)
-        instance_se_points_tensor[:,1] = torch.clamp(instance_se_points_tensor[:,1], min=-self.max_y,max=self.max_y)
-        instance_se_points_tensor[:,2] = torch.clamp(instance_se_points_tensor[:,2], min=-self.max_x,max=self.max_x)
-        instance_se_points_tensor[:,3] = torch.clamp(instance_se_points_tensor[:,3], min=-self.max_y,max=self.max_y)
+        instance_se_points_tensor[:,0] /= self.max_x
+        instance_se_points_tensor[:,1] /= self.max_y
+        instance_se_points_tensor[:,2] /= self.max_x
+        instance_se_points_tensor[:,3] /= self.max_y
+        instance_se_points_tensor[:,0] = torch.clamp(instance_se_points_tensor[:,0], min=0,max=0.999)
+        instance_se_points_tensor[:,1] = torch.clamp(instance_se_points_tensor[:,1], min=0,max=0.999)
+        instance_se_points_tensor[:,2] = torch.clamp(instance_se_points_tensor[:,2], min=0,max=0.999)
+        instance_se_points_tensor[:,3] = torch.clamp(instance_se_points_tensor[:,3], min=0,max=0.999)
         return instance_se_points_tensor
 
     @property
@@ -92,10 +96,14 @@ class InstanceLines(object):
         instance_bbox_tensor = to_tensor(instance_bbox_array)
         instance_bbox_tensor = instance_bbox_tensor.to(
                             dtype=torch.float32)
-        instance_bbox_tensor[:,0] = torch.clamp(instance_bbox_tensor[:,0], min=-self.max_x,max=self.max_x)
-        instance_bbox_tensor[:,1] = torch.clamp(instance_bbox_tensor[:,1], min=-self.max_y,max=self.max_y)
-        instance_bbox_tensor[:,2] = torch.clamp(instance_bbox_tensor[:,2], min=-self.max_x,max=self.max_x)
-        instance_bbox_tensor[:,3] = torch.clamp(instance_bbox_tensor[:,3], min=-self.max_y,max=self.max_y)
+        instance_bbox_tensor[:,0] /= self.max_x
+        instance_bbox_tensor[:,1] /= self.max_y
+        instance_bbox_tensor[:,2] /= self.max_x
+        instance_bbox_tensor[:,3] /= self.max_y
+        instance_bbox_tensor[:,0] = torch.clamp(instance_bbox_tensor[:,0], min=0,max=0.999)
+        instance_bbox_tensor[:,1] = torch.clamp(instance_bbox_tensor[:,1], min=0,max=0.999)
+        instance_bbox_tensor[:,2] = torch.clamp(instance_bbox_tensor[:,2], min=0,max=0.999)
+        instance_bbox_tensor[:,3] = torch.clamp(instance_bbox_tensor[:,3], min=0,max=0.999)
         return instance_bbox_tensor
 
     @property
