@@ -161,9 +161,6 @@ class InstanceLines(object):
             multi_shifts_pts = np.stack(shift_pts_list,axis=0)
             shifts_num,_,_ = multi_shifts_pts.shape
 
-            multi_shifts_pts_tensor[:,:,0] /= self.max_x # normalize
-            multi_shifts_pts_tensor[:,:,1] /= self.max_y
-
             if shifts_num > final_shift_num:
                 index = np.random.choice(multi_shifts_pts.shape[0], final_shift_num, replace=False)
                 multi_shifts_pts = multi_shifts_pts[index]
