@@ -231,7 +231,7 @@ data = dict(
 
 optimizer = dict(
     type='AdamW',
-    lr=2.5e-5,
+    lr=2e-4,
     paramwise_cfg=dict(
         custom_keys={
             'img_backbone': dict(lr_mult=0.1),
