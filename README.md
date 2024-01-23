@@ -15,6 +15,11 @@ ArXiv Preprint ([arXiv 2304.09807](https://arxiv.org/pdf/2304.09807.pdf))
 ![framework](assets/framework.png "framework")
 
 
+https://github.com/hustvl/VMA/assets/40697001/ec099b41-835a-409d-a007-9766c414a483
+
+
+
+
 **TL;DR** VMA is a general map auto annotation framework based on MapTR, with high flexibility in terms of spatial scale and element type.
 
 ## Getting Started
